@@ -1,0 +1,22 @@
+{
+  "name": "therichardgreen",
+  "version": "1.0.0",
+  "description": "therichard.green",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanchagreen/therichardgreen.git"
+  },
+  "author": "Richard Green",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vanchagreen/therichardgreen/issues"
+  },
+  "homepage": "https://github.com/vanchagreen/therichardgreen#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
