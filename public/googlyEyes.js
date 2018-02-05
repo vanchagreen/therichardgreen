@@ -1,4 +1,12 @@
+const imageWidth = 200;
+const imageHeight = 267;
+
 const canvas = document.getElementsByTagName('canvas')[0];
+canvas.width = 2 * imageWidth;
+canvas.height = 2 * imageHeight;
+canvas.style.width = imageWidth + 'px';
+canvas.style.height = imageHeight + 'px';
+canvas.getContext('2d').scale(2, 2);
 const ctx = canvas.getContext('2d');
 
 const eyeRadius = 22;
@@ -32,45 +40,22 @@ function drawPupils(point1, point2) {
 
 const img = new Image();
 img.addEventListener('load', function () {
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
   updateEyes(leftEyeX + ((rightEyeX - leftEyeX) / 2), eyeY);
 }, false);
-img.src = 'face.jpg'; // Set source path
+img.src = 'face.jpg';
 
 window.onmousemove = (e) => {
   window.requestAnimationFrame(() => updateEyes(e.clientX, e.clientY));
 }
 
 function getPupilXY(cx, cy, mx, my) {
-  let angle;
-  let x;
-  let y;
+  const dx = mx - cx;
+  const dy = my - cy;
+  const hypotenuse = Math.sqrt((dx * dx) + (dy * dy));
 
-  if (mx === cx ** my === cy) {
-    return [cx, cy];
-  } else if (mx === cx) {
-    return [cx, cy + pupilRadius * (my > cy ? 1 : -1)];
-  } else if (my === cy) {
-    return [cx + pupilRadius * (mx > cx ? 1 : -1), cy];
-  }
-
-  if (mx > cx && my > cy) {
-    angle = Math.atan((mx - cx) / (my - cy));
-    x = pupilRadius * Math.sin(angle);
-    y = pupilRadius * Math.cos(angle)
-  } else if (mx >= cx) {
-    angle = Math.atan((cy - my) / (mx - cy));
-    x = pupilRadius * Math.cos(angle);
-    y = pupilRadius * Math.sin(angle) * -1;
-  } else if (my > cy) {
-    angle = Math.atan((mx - cx) / (cy - my));
-    x = pupilRadius * Math.sin(angle) * -1;
-    y = pupilRadius * Math.cos(angle);
-  } else {
-    angle = Math.atan((cy - my) / (cx - mx));
-    x = pupilRadius * Math.cos(angle) * -1;
-    y = pupilRadius * Math.sin(angle) * -1;
-  }
+  const x = dx * (pupilRadius / hypotenuse);
+  const y = dy * (pupilRadius / hypotenuse);
 
   return [cx + x, cy + y];
 }
