@@ -1,19 +1,21 @@
-const imageWidth = 200;
-const imageHeight = 267;
+// const imageHeight = window.innerHeight;
+const imageHeight = 300;
+const imageWidth = imageHeight / 1.335;
 
 const canvas = document.getElementsByTagName('canvas')[0];
+const ctx = canvas.getContext('2d');
+
 canvas.width = 2 * imageWidth;
 canvas.height = 2 * imageHeight;
 canvas.style.width = imageWidth + 'px';
 canvas.style.height = imageHeight + 'px';
-canvas.getContext('2d').scale(2, 2);
-const ctx = canvas.getContext('2d');
+ctx.scale(2, 2);
 
-const eyeRadius = 22;
+const eyeRadius = imageWidth / 9;
 const pupilRadius = eyeRadius / 2;
-const leftEyeX = 80;
-const rightEyeX = 153;
-const eyeY = 80;
+const leftEyeX = imageWidth / 2.6;
+const rightEyeX = imageWidth / 1.31;
+const eyeY = imageWidth / 2.5;
 
 function drawWhiteCircles() {
   ctx.fillStyle = 'white';
