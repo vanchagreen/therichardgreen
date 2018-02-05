@@ -45,7 +45,7 @@ img.addEventListener('load', function () {
   ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
   updateEyes(leftEyeX + ((rightEyeX - leftEyeX) / 2), eyeY);
 }, false);
-img.src = 'face.jpg';
+img.src = 'optimized_face.jpeg';
 
 window.onmousemove = (e) => {
   window.requestAnimationFrame(() => updateEyes(e.clientX, e.clientY));
