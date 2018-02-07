@@ -56,10 +56,13 @@ function getPupilXY(cx, cy, mx, my) {
   const dy = my - cy;
   const hypotenuse = Math.sqrt((dx * dx) + (dy * dy));
 
+  if (hypotenuse < eyeRadius) {
+    canvas.style.cursor = 'none';
+  }
+
   if (hypotenuse < pupilRadius) {
     return [mx, my]
   }
-
   const x = dx * (pupilRadius / hypotenuse);
   const y = dy * (pupilRadius / hypotenuse);
 
@@ -68,6 +71,7 @@ function getPupilXY(cx, cy, mx, my) {
 
 
 function updateEyes(mx, my) {
+  canvas.style.cursor = 'auto';
   const newPoint1 = getPupilXY(leftEyeX, eyeY, mx, my);
   const newPoint2 = getPupilXY(rightEyeX, eyeY, mx, my);
   drawWhiteCircles();
