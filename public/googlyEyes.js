@@ -56,6 +56,10 @@ function getPupilXY(cx, cy, mx, my) {
   const dy = my - cy;
   const hypotenuse = Math.sqrt((dx * dx) + (dy * dy));
 
+  if (hypotenuse < pupilRadius) {
+    return [mx, my]
+  }
+
   const x = dx * (pupilRadius / hypotenuse);
   const y = dy * (pupilRadius / hypotenuse);
 
