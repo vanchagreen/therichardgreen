@@ -17,6 +17,23 @@ const leftEyeX = imageWidth / 2.6;
 const rightEyeX = imageWidth / 1.31;
 const eyeY = imageWidth / 2.5;
 
+var audio = new Audio('pew.mp3');
+
+const img = new Image();
+img.addEventListener('load', function () {
+  ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
+  window.onmousemove = (e) => {
+    window.requestAnimationFrame(() => updateEyes(e.clientX, e.clientY));
+  }
+
+  window.onclick = (e) => {
+    fireLaser(e.clientX, e.clientY);
+  }
+
+  updateEyes(leftEyeX + ((rightEyeX - leftEyeX) / 2), eyeY);
+}, false);
+img.src = 'optimized_face.jpeg';
+
 function drawWhiteCircles() {
   ctx.fillStyle = 'white';
 
@@ -40,17 +57,6 @@ function drawPupils(point1, point2) {
   ctx.fill();
 }
 
-const img = new Image();
-img.addEventListener('load', function () {
-  ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
-  updateEyes(leftEyeX + ((rightEyeX - leftEyeX) / 2), eyeY);
-}, false);
-img.src = 'optimized_face.jpeg';
-
-window.onmousemove = (e) => {
-  window.requestAnimationFrame(() => updateEyes(e.clientX, e.clientY));
-}
-
 function getPupilXY(cx, cy, mx, my) {
   const dx = mx - cx;
   const dy = my - cy;
@@ -69,11 +75,39 @@ function getPupilXY(cx, cy, mx, my) {
   return [cx + x, cy + y];
 }
 
+let laserFired = false;
 
 function updateEyes(mx, my) {
+  if (laserFired) {
+    ctx.clearRect(0, 0, imageWidth, imageHeight);
+    ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
+    laserFired = false;
+  }
   canvas.style.cursor = 'auto';
   const newPoint1 = getPupilXY(leftEyeX, eyeY, mx, my);
   const newPoint2 = getPupilXY(rightEyeX, eyeY, mx, my);
   drawWhiteCircles();
   drawPupils(newPoint1, newPoint2);
+}
+
+function drawLaser(cx, cy, mx, my) {
+  ctx.beginPath();
+  const XY = getPupilXY(cx, cy, mx, my);
+  ctx.moveTo(XY[0], XY[1]);
+  ctx.lineTo(mx, my);
+  ctx.stroke();
+}
+
+function fireLaser(mx, my) {
+  audio.play();
+  updateEyes(mx, my);
+
+  ctx.strokeStyle = 'red';
+  ctx.lineWidth = 3;
+
+  drawLaser(leftEyeX, eyeY, mx, my);
+  drawLaser(rightEyeX, eyeY, mx, my);
+
+  ctx.lineWidth = 1;
+  laserFired = true;
 }
