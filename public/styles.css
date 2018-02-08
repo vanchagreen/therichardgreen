@@ -15,6 +15,8 @@ img {
 #bg {
   background: center/cover white url(starfield.gif);
   cursor: none;
+  height: 100vh;
+  width: 100vw;
   opacity: 50;
   position: fixed;
   z-index: -1;

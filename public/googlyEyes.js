@@ -1,7 +1,3 @@
-const bgDiv = document.getElementById('bg');
-bgDiv.style.width = window.innerWidth + 'px';
-bgDiv.style.height = window.innerHeight + 'px';
-
 const canvas = document.getElementsByTagName('canvas')[0];
 const ctx = canvas.getContext('2d');
 
@@ -22,8 +18,6 @@ const pupilRadius = eyeRadius / 2;
 const leftEyeX = xImageOffset + imageWidth / 2.6;
 const rightEyeX = xImageOffset + imageWidth / 1.31;
 const eyeY = yImageOffset + imageWidth / 2.5;
-
-var audio = new Audio('pew.mp3');
 
 const img = new Image();
 img.addEventListener('load', function () {
@@ -105,7 +99,9 @@ function drawLaser(cx, cy, mx, my) {
 }
 
 function fireLaser(mx, my) {
-  audio.play();
+  var audio = new Audio('pew.mp3');
+  audio.autoplay = 'autoplay';
+
   updateEyes(mx, my);
 
   ctx.strokeStyle = 'red';
