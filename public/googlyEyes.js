@@ -1,27 +1,33 @@
-// const imageHeight = window.innerHeight;
-const imageHeight = 300;
-const imageWidth = imageHeight / 1.335;
+const bgDiv = document.getElementById('bg');
+bgDiv.style.width = window.innerWidth + 'px';
+bgDiv.style.height = window.innerHeight + 'px';
 
 const canvas = document.getElementsByTagName('canvas')[0];
 const ctx = canvas.getContext('2d');
 
-canvas.width = 2 * imageWidth;
-canvas.height = 2 * imageHeight;
-canvas.style.width = imageWidth + 'px';
-canvas.style.height = imageHeight + 'px';
+canvas.width = 2 * window.innerWidth;
+canvas.height = 2 * window.innerHeight;
+canvas.style.width = canvas.width / 2 + 'px';
+canvas.style.height = canvas.height / 2 + 'px';
 ctx.scale(2, 2);
+
+const imageHeight = 300;
+const imageWidth = imageHeight / 1.335;
+
+const xImageOffset = (window.innerWidth / 2) - (imageWidth / 2)
+const yImageOffset = (window.innerHeight / 2) - (imageHeight / 2)
 
 const eyeRadius = imageWidth / 9;
 const pupilRadius = eyeRadius / 2;
-const leftEyeX = imageWidth / 2.6;
-const rightEyeX = imageWidth / 1.31;
-const eyeY = imageWidth / 2.5;
+const leftEyeX = xImageOffset + imageWidth / 2.6;
+const rightEyeX = xImageOffset + imageWidth / 1.31;
+const eyeY = yImageOffset + imageWidth / 2.5;
 
 var audio = new Audio('pew.mp3');
 
 const img = new Image();
 img.addEventListener('load', function () {
-  ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
+  ctx.drawImage(img, xImageOffset, yImageOffset, imageWidth, imageHeight);
   window.onmousemove = (e) => {
     window.requestAnimationFrame(() => updateEyes(e.clientX, e.clientY));
   }
@@ -79,8 +85,8 @@ let laserFired = false;
 
 function updateEyes(mx, my) {
   if (laserFired) {
-    ctx.clearRect(0, 0, imageWidth, imageHeight);
-    ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, xImageOffset, yImageOffset, imageWidth, imageHeight);
     laserFired = false;
   }
   canvas.style.cursor = 'auto';
@@ -107,6 +113,16 @@ function fireLaser(mx, my) {
 
   drawLaser(leftEyeX, eyeY, mx, my);
   drawLaser(rightEyeX, eyeY, mx, my);
+
+  const explosionImg = document.createElement('img');
+  explosionImg.src = 'explosion.gif';
+  explosionImg.style.top = my - 125 + 'px';
+  explosionImg.style.left = mx - 125 + 'px';
+  document.body.appendChild(explosionImg);
+  window.setTimeout(() => {
+    explosionImg.remove();
+  }, 1000)
+
 
   ctx.lineWidth = 1;
   laserFired = true;
