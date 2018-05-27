@@ -1,14 +1,22 @@
-* {
-  cursor: crosshair !important;
+body {
+  height: 100vh;
+  margin: 0;
+  width: 100vw;
+  position: fixed;
 }
 
-body {
-  margin: 0;
+.wrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
 }
 
 canvas {
+  position: absolute;
   pointer-events: none;
-  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
 img {
@@ -17,19 +25,9 @@ img {
   width: 250px;
 }
 
-body {
-  background: center/cover white url(starfield.gif);
-  cursor: none;
-  height: 100vh;
-  opacity: 50;
-  position: fixed;
-  width: 100vw;
-}
-
 .blurb {
   color: white;
-  margin-left: 15px;
-  margin-top: 15px;
+  position: absolute;
 }
 
 .blurb h1 {
