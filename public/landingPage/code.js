@@ -10,7 +10,7 @@ const ctx = canvas.getContext('2d');
 const imageHeight = 300;
 const imageWidth = imageHeight / 1.335;
 
-let xImageOffset, yImageOffset, eyeRadius, pupilRadius, leftEyeX, rightEyeX, eyeY, mouseX, mouseY;
+let neonHue, xImageOffset, yImageOffset, eyeRadius, pupilRadius, leftEyeX, rightEyeX, eyeY, mouseX, mouseY;
 const stars = [];
 
 function initializeCanvas() {
@@ -32,6 +32,8 @@ function initializeCanvas() {
   mouseX = leftEyeX + ((rightEyeX - leftEyeX) / 2);
   mouseY = eyeY;
 
+  neonHue = getRandomInt(0, 360);
+
   initializeStars();
 }
 
@@ -40,12 +42,13 @@ function initializeStars() {
     const opacity = Math.random();
     stars[i] = {
       color: [getRandomInt(0, 255), getRandomInt(0, 255), getRandomInt(0, 255)],
+      dir: getRandomInt(0, 1) ? -1 : 1,
       opacity,
       opacityDir: getRandomInt(0, 1) ? -1 : 1,
       opacitySpeed: 0.01 + getRandomInt(1, 5) / 1000,
       height: getRandomInt(2, 5),
       width: getRandomInt(2, 5),
-      speed: getRandomInt(1000, 5000),
+      speed: getRandomInt(100, 5000),
       x: (Math.random() * canvas.width / 2), 
       y: (Math.random() * canvas.height / 2),
     }
@@ -54,9 +57,10 @@ function initializeStars() {
 
 function drawStars() {
   for(const star of stars) {
-    star.x -= canvas.width / star.speed
+    star.x += star.dir * (canvas.width / star.speed)
     star.opacity += star.opacitySpeed * star.opacityDir;
     if (star.x < 0) star.x = canvas.width / 2;
+    else if (star.x > canvas.width / 2) star.x = 0;
     if (star.opacity > 1 || star.opacity < 0.1) star.opacityDir *= -1;
     
     ctx.fillStyle = 'rgba(' + star.color.join(',') + ',' + star.opacity + ')';
@@ -107,11 +111,30 @@ function drawEyes() {
   drawPupils(pupilPoint1, pupilPoint2);
 }
 
+function updateNeon() {
+  neonHue += 0.5;
+  [].forEach.call(document.getElementsByClassName('neon'), (el) => {
+    el.style.setProperty('--base-color', 'hsl(' + neonHue + ', 100%, 50%)');
+    el.style.setProperty('--lighter-color', 'hsl(' + neonHue + ', 100%, 73%)');
+  });
+}
+
+function render() {
+  window.requestAnimationFrame(render);
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawStars();
+  ctx.drawImage(img, xImageOffset, yImageOffset, imageWidth, imageHeight);
+  drawEyes();
+  updateNeon();
+}
+
 function explode(mx, my) {
   var audio = new Audio('pew.mp3');
   audio.autoplay = 'autoplay';
 
   const explosionImg = document.createElement('img');
+  explosionImg.className = 'explosion';
   explosionImg.src = 'explosion.gif';
   explosionImg.style.top = my - 125 + 'px';
   explosionImg.style.left = mx - 125 + 'px';
@@ -119,16 +142,6 @@ function explode(mx, my) {
   window.setTimeout(() => {
     explosionImg.remove();
   }, 1000)
-}
-
-function render() {
-  window.requestAnimationFrame(render);
-  ctx.fillStyle = 'black';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);  
-  drawStars();
-  ctx.drawImage(img, xImageOffset, yImageOffset, imageWidth, imageHeight);  
-  canvas.style.cursor = 'auto';
-  drawEyes();
 }
 
 const img = new Image();
