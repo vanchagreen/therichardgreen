@@ -14,11 +14,12 @@ let neonHue, xImageOffset, yImageOffset, eyeRadius, pupilRadius, leftEyeX, right
 const stars = [];
 
 function initializeCanvas() {
-  canvas.width = 2 * window.innerWidth;
-  canvas.height = 2 * window.innerHeight;
-  canvas.style.width = canvas.width / 2 + 'px';
-  canvas.style.height = canvas.height / 2 + 'px';
-  ctx.scale(2, 2);
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+  const scale = window.devicePixelRatio;
+  canvas.width = window.innerWidth * scale;
+  canvas.height = window.innerHeight * scale;
+  ctx.scale(scale, scale);
 
   xImageOffset = (window.innerWidth / 2) - (imageWidth / 2)
   yImageOffset = (window.innerHeight / 2) - (imageHeight / 2)
@@ -49,18 +50,18 @@ function initializeStars() {
       height: getRandomInt(2, 5),
       width: getRandomInt(2, 5),
       speed: getRandomInt(100, 5000),
-      x: (Math.random() * canvas.width / 2), 
-      y: (Math.random() * canvas.height / 2),
+      x: (Math.random() * window.innerWidth),
+      y: (Math.random() * window.innerHeight),
     }
   }  
 }
 
 function drawStars() {
   for(const star of stars) {
-    star.x += star.dir * (canvas.width / star.speed)
+    star.x += star.dir * (window.innerWidth / star.speed)
     star.opacity += star.opacitySpeed * star.opacityDir;
-    if (star.x < 0) star.x = canvas.width / 2;
-    else if (star.x > canvas.width / 2) star.x = 0;
+    if (star.x < 0) star.x = window.innerWidth;
+    else if (star.x > window.innerWidth) star.x = 0;
     if (star.opacity > 1 || star.opacity < 0.1) star.opacityDir *= -1;
     
     ctx.fillStyle = 'rgba(' + star.color.join(',') + ',' + star.opacity + ')';
@@ -122,7 +123,7 @@ function updateNeon() {
 function render() {
   window.requestAnimationFrame(render);
   ctx.fillStyle = 'black';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
   drawStars();
   ctx.drawImage(img, xImageOffset, yImageOffset, imageWidth, imageHeight);
   drawEyes();
