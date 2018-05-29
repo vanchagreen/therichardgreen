@@ -129,21 +129,6 @@ function render() {
   updateNeon();
 }
 
-function explode(mx, my) {
-  var audio = new Audio('pew.mp3');
-  audio.autoplay = 'autoplay';
-
-  const explosionImg = document.createElement('img');
-  explosionImg.className = 'explosion';
-  explosionImg.src = 'explosion.gif';
-  explosionImg.style.top = my - 125 + 'px';
-  explosionImg.style.left = mx - 125 + 'px';
-  document.body.appendChild(explosionImg);
-  window.setTimeout(() => {
-    explosionImg.remove();
-  }, 1000)
-}
-
 const img = new Image();
 img.addEventListener('load', function () {
   initializeCanvas();
@@ -151,10 +136,6 @@ img.addEventListener('load', function () {
   window.onmousemove = (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-  }
-
-  window.onclick = (e) => {
-    explode(e.clientX, e.clientY);
   }
 
   window.addEventListener('touchmove', (e) => {

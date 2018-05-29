@@ -21,12 +21,6 @@ canvas {
   z-index: 0;
 }
 
-.explosion {
-  height: 250px;
-  position: absolute;
-  width: 250px;
-}
-
 .blurb {
   top: 10px;
   left: 10px;
@@ -46,5 +40,4 @@ canvas {
 
 .neon {
   text-shadow: 0 0 0.1em #fff, 0 0 0.2em #fff, 0 0 0.3em #fff, 0 0 0.4em var(--lighter-color), 0 0 0.6em var(--base-color), 0 0 0.8em var(--base-color), 0 0 1em var(--base-color), 0 0 1.2em var(--base-color)
-  /* text-shadow: 0 0 0.1em #fff, 0 0 0.2em #fff, 0 0 0.3em #fff, 0 0 0.4em #f7f, 0 0 0.6em #f0f, 0 0 0.8em #f0f, 0 0 1em #f0f, 0 0 1.2em #f0f */
 }
