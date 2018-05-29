@@ -1,10 +1,12 @@
+html {
+  font-size: 100%;
+}
+
 body {
   height: 100vh;
   margin: 0;
   width: 100vw;
   position: fixed;
-  font-family: lato;
-  
 }
 
 .wrap {
@@ -25,17 +27,18 @@ canvas {
   top: 10px;
   left: 10px;
   color: white;
+  font-family: Lato;
   position: absolute;
 }
 
 .blurb .name {
-  font-weight: 100;
-  font-size: 48px;
+  font-weight: 300;
+  font-size: 3em;
 }
 
 .blurb .sub-text {
   font-weight: 100;
-  font-size: 24px;
+  font-size: 1.5em;
 }
 
 .neon {

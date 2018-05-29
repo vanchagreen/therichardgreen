@@ -33,13 +33,13 @@ function initializeCanvas() {
   mouseX = leftEyeX + ((rightEyeX - leftEyeX) / 2);
   mouseY = eyeY;
 
-  neonHue = getRandomInt(0, 360);
+  setNeon();
 
   initializeStars();
 }
 
 function initializeStars() {
-  for(let i = 0; i < 200; i++) {
+  for(let i = 0; i < 300; i++) {
     const opacity = Math.random();
     stars[i] = {
       color: [getRandomInt(0, 255), getRandomInt(0, 255), getRandomInt(0, 255)],
@@ -47,23 +47,23 @@ function initializeStars() {
       opacity,
       opacityDir: getRandomInt(0, 1) ? -1 : 1,
       opacitySpeed: 0.01 + getRandomInt(1, 5) / 1000,
-      height: getRandomInt(2, 5),
-      width: getRandomInt(2, 5),
+      height: getRandomInt(2, 7),
+      width: getRandomInt(2, 7),
       speed: getRandomInt(100, 5000),
       x: (Math.random() * window.innerWidth),
       y: (Math.random() * window.innerHeight),
     }
-  }  
+  }
 }
 
 function drawStars() {
   for(const star of stars) {
-    star.x += star.dir * (window.innerWidth / star.speed)
+    star.x += -1 * (window.innerWidth / star.speed)
     star.opacity += star.opacitySpeed * star.opacityDir;
     if (star.x < 0) star.x = window.innerWidth;
     else if (star.x > window.innerWidth) star.x = 0;
     if (star.opacity > 1 || star.opacity < 0.1) star.opacityDir *= -1;
-    
+
     ctx.fillStyle = 'rgba(' + star.color.join(',') + ',' + star.opacity + ')';
 
     ctx.fillRect(star.x, star.y, star.width, star.height);
@@ -112,8 +112,8 @@ function drawEyes() {
   drawPupils(pupilPoint1, pupilPoint2);
 }
 
-function updateNeon() {
-  neonHue += 0.5;
+function setNeon() {
+  const neonHue = getRandomInt(0, 360);
   [].forEach.call(document.getElementsByClassName('neon'), (el) => {
     el.style.setProperty('--base-color', 'hsl(' + neonHue + ', 100%, 50%)');
     el.style.setProperty('--lighter-color', 'hsl(' + neonHue + ', 100%, 73%)');
@@ -127,7 +127,6 @@ function render() {
   drawStars();
   ctx.drawImage(img, xImageOffset, yImageOffset, imageWidth, imageHeight);
   drawEyes();
-  updateNeon();
 }
 
 const img = new Image();
