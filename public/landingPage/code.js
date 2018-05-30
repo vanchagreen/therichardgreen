@@ -7,10 +7,7 @@ function getRandomInt(min, max) {
 const canvas = document.getElementsByTagName('canvas')[0];
 const ctx = canvas.getContext('2d');
 
-const imageHeight = 300;
-const imageWidth = imageHeight / 1.335;
-
-let neonHue, xImageOffset, yImageOffset, eyeRadius, pupilRadius, leftEyeX, rightEyeX, eyeY, mouseX, mouseY;
+let neonHue, imageWidth, imageHeight, xImageOffset, yImageOffset, eyeRadius, pupilRadius, leftEyeX, rightEyeX, eyeY, mouseX, mouseY;
 const stars = [];
 
 function initializeCanvas() {
@@ -20,6 +17,16 @@ function initializeCanvas() {
   canvas.width = window.innerWidth * scale;
   canvas.height = window.innerHeight * scale;
   ctx.scale(scale, scale);
+
+  if (window.innerWidth >= window.innerHeight) {
+    // portrait
+    imageHeight = window.innerHeight / 3;
+    imageWidth = imageHeight / 1.335;
+  } else {
+    // landscape
+    imageWidth = window.innerWidth / 3;
+    imageHeight = imageWidth * 1.335;
+  }
 
   xImageOffset = (window.innerWidth / 2) - (imageWidth / 2)
   yImageOffset = (window.innerHeight / 2) - (imageHeight / 2)
@@ -39,7 +46,8 @@ function initializeCanvas() {
 }
 
 function initializeStars() {
-  for(let i = 0; i < 300; i++) {
+  const starCount = Math.max(window.innerHeight, window.innerWidth) / 2;
+  for(let i = 0; i < starCount; i++) {
     const opacity = Math.random();
     stars[i] = {
       color: [getRandomInt(0, 255), getRandomInt(0, 255), getRandomInt(0, 255)],
@@ -47,8 +55,8 @@ function initializeStars() {
       opacity,
       opacityDir: getRandomInt(0, 1) ? -1 : 1,
       opacitySpeed: 0.01 + getRandomInt(1, 5) / 1000,
-      height: getRandomInt(2, 7),
-      width: getRandomInt(2, 7),
+      height: getRandomInt(2, 4),
+      width: getRandomInt(2, 4),
       speed: getRandomInt(100, 5000),
       x: (Math.random() * window.innerWidth),
       y: (Math.random() * window.innerHeight),
