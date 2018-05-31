@@ -7,6 +7,7 @@ body {
   margin: 0;
   width: 100vw;
   position: fixed;
+  font-family: Lato;
 }
 
 .wrap {
@@ -23,22 +24,39 @@ canvas {
   z-index: 0;
 }
 
-.blurb {
-  top: 10px;
-  left: 10px;
+.text {
+  top: 10%;
+  width: 100%;
+  text-align: center;
   color: white;
-  font-family: Lato;
   position: absolute;
 }
 
-.blurb .name {
+.text .name {
   font-weight: 300;
   font-size: 3em;
 }
 
-.blurb .sub-text {
+.text .sub-text {
   font-weight: 100;
   font-size: 1.5em;
+}
+
+.nav {
+  position: absolute;
+  color: white;
+  font-family: Lato;
+  font-size: 1.3em;
+  font-weight: 100;
+  top: 33%;
+  left: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.navlink {
+  font-weight: 100;
 }
 
 .neon {

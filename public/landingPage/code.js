@@ -31,6 +31,9 @@ function initializeCanvas() {
   xImageOffset = (window.innerWidth / 2) - (imageWidth / 2)
   yImageOffset = (window.innerHeight / 2) - (imageHeight / 2)
 
+  document.getElementsByClassName('nav')[0].style.height = imageHeight + 'px';
+  document.getElementsByClassName('nav')[0].style.top = yImageOffset + 'px';
+
   eyeRadius = imageWidth / 9;
   pupilRadius = eyeRadius / 2;
   leftEyeX = xImageOffset + imageWidth / 2.6;
@@ -72,9 +75,12 @@ function drawStars() {
     else if (star.x > window.innerWidth) star.x = 0;
     if (star.opacity > 1 || star.opacity < 0.1) star.opacityDir *= -1;
 
+    ctx.beginPath();
     ctx.fillStyle = 'rgba(' + star.color.join(',') + ',' + star.opacity + ')';
+    ctx.arc(star.x, star.y, star.width / 2, 0, Math.PI * 2)
+    ctx.fill();
 
-    ctx.fillRect(star.x, star.y, star.width, star.height);
+    // ctx.fillRect(star.x, star.y, star.width, star.height);
   }
 }
 
