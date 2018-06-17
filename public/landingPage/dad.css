@@ -1,0 +1,29 @@
+html, body {
+  background-color: white;
+  margin: 0;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.text {
+  font-family: 'Londrina Solid', cursive;
+  text-align: center;
+  font-size: 3.5em;
+  margin-bottom: 10px;
+}
+
+.img-container {
+  position: relative;
+  flex: 1;
+}
+
+img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
